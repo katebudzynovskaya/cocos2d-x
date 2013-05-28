@@ -249,21 +249,42 @@ extern "C"
         methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, volume);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
     }
+//old method
+//    unsigned int playEffectJNI(const char* path, bool bLoop)
+//    {
+//        // int playEffect(String)
+//        
+//        JniMethodInfo methodInfo;
+//        int ret = 0;
+//        
+//        if (! getStaticMethodInfo(methodInfo, "playEffect", "(Ljava/lang/String;Z)I"))
+//        {
+//            return ret;
+//        }
+//        
+//        jstring stringArg = methodInfo.env->NewStringUTF(path);
+//        ret = methodInfo.env->CallStaticIntMethod(methodInfo.classID, methodInfo.methodID, stringArg, bLoop);
+//        methodInfo.env->DeleteLocalRef(stringArg);
+//        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+//        
+//        return (unsigned int)ret;
+//    }
+//
     
-    unsigned int playEffectJNI(const char* path, bool bLoop)
+    unsigned int playEffectJNI(const char* path, bool bLoop, float pitch, float pan, float gain)
     {
         // int playEffect(String)
         
         JniMethodInfo methodInfo;
         int ret = 0;
         
-        if (! getStaticMethodInfo(methodInfo, "playEffect", "(Ljava/lang/String;Z)I"))
+        if (! getStaticMethodInfo(methodInfo, "playEffect", "(Ljava/lang/String;ZFFF)I"))
         {
             return ret;
         }
         
         jstring stringArg = methodInfo.env->NewStringUTF(path);
-        ret = methodInfo.env->CallStaticIntMethod(methodInfo.classID, methodInfo.methodID, stringArg, bLoop);
+        ret = methodInfo.env->CallStaticIntMethod(methodInfo.classID, methodInfo.methodID, stringArg, bLoop, pitch, pan, gain);
         methodInfo.env->DeleteLocalRef(stringArg);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
         

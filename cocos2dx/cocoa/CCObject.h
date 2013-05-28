@@ -26,6 +26,7 @@ THE SOFTWARE.
 #define __CCOBJECT_H__
 
 #include "platform/CCPlatformMacros.h"
+#include <string>
 
 NS_CC_BEGIN
 
@@ -47,6 +48,8 @@ public:
 
 class CC_DLL CCObject : public CCCopying
 {
+    std::string m_obDebugName;
+
 public:
     // object id, CCScriptSupport need public m_uID
     unsigned int        m_uID;
@@ -72,6 +75,8 @@ public:
     virtual void update(float dt) {CC_UNUSED_PARAM(dt);};
     
     friend class CCAutoreleasePool;
+    void setDebugName(const std::string &name) {m_obDebugName = name;}
+
 };
 
 

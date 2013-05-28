@@ -319,7 +319,40 @@ void CCTouchDispatcher::setPriority(int nPriority, CCTouchDelegate *pDelegate)
 void CCTouchDispatcher::touches(CCSet *pTouches, CCEvent *pEvent, unsigned int uIndex)
 {
     CCAssert(uIndex >= 0 && uIndex < 4, "");
-
+    //single touch processing
+    if (m_bSingleTouch) {
+        
+        switch (uIndex) {
+            case CCTOUCHBEGAN: {
+                if (pTouches->count()>1)
+                    return;
+                
+                if(m_pSingleTouch == NULL)
+                    m_pSingleTouch = (CCTouch*)(pTouches->anyObject());
+                else
+                    return;
+            }
+                break;
+                
+            case CCTOUCHENDED: {
+                CCTouch *pTouch;
+                CCSetIterator setIter;
+                for (setIter = pTouches->begin(); setIter != pTouches->end(); ++setIter) {
+                    pTouch = (CCTouch *)(*setIter);
+                    if (m_pSingleTouch == pTouch)
+                        m_pSingleTouch = NULL;
+                }
+                
+                if (m_pSingleTouch)
+                    return;
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
     CCSet *pMutableTouches;
     m_bLocked = true;
 

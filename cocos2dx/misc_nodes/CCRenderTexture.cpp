@@ -292,7 +292,9 @@ bool CCRenderTexture::initWithWidthAndHeight(int w, int h, CCTexture2DPixelForma
         }
         GLint oldRBO;
         glGetIntegerv(GL_RENDERBUFFER_BINDING, &oldRBO);
-        
+
+        //TODO: comment this if dont work on HTC
+        // /*
         if (CCConfiguration::sharedConfiguration()->checkForGLExtension("GL_QCOM"))
         {
             m_pTextureCopy = new CCTexture2D();
@@ -305,6 +307,8 @@ bool CCRenderTexture::initWithWidthAndHeight(int w, int h, CCTexture2DPixelForma
                 break;
             }
         }
+        // */
+        //
 
         // generate FBO
         glGenFramebuffers(1, &m_uFBO);
@@ -390,6 +394,10 @@ void CCRenderTexture::begin()
     
     /*  Certain Qualcomm Andreno gpu's will retain data in memory after a frame buffer switch which corrupts the render to the texture. The solution is to clear the frame buffer before rendering to the texture. However, calling glClear has the unintended result of clearing the current texture. Create a temporary texture to overcome this. At the end of CCRenderTexture::begin(), switch the attached texture to the second one, call glClear, and then switch back to the original texture. This solution is unnecessary for other devices as they don't have the same issue with switching frame buffers.
      */
+    
+    
+    //TODO: comment this if dont work on HTC
+    // /*
     if (CCConfiguration::sharedConfiguration()->checkForGLExtension("GL_QCOM"))
     {
         // -- bind a temporary texture so we can clear the render buffer without losing our texture
@@ -398,6 +406,8 @@ void CCRenderTexture::begin()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_pTexture->getName(), 0);
     }
+    // */
+    //
 }
 
 void CCRenderTexture::beginWithClear(float r, float g, float b, float a)

@@ -107,7 +107,11 @@ bool CCString::boolValue() const
         return false;
     }
 
-    if (0 == strcmp(m_sString.c_str(), "0") || 0 == strcmp(m_sString.c_str(), "false"))
+    if (0 == strcmp(m_sString.c_str(), "0")
+        || 0 == strcmp(m_sString.c_str(), "false")
+        || 0 ==strcmp(m_sString.c_str(), "null")
+        || 0 ==strcmp(m_sString.c_str(), "NULL")
+        )
     {
         return false;
     }

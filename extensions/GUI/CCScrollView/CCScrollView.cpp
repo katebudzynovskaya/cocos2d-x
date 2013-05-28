@@ -55,6 +55,7 @@ CCScrollView::CCScrollView()
 , m_pTouches(NULL)
 , m_fMinScale(0.0f)
 , m_fMaxScale(0.0f)
+, scrollEnable(true)
 {
 
 }
@@ -645,7 +646,7 @@ void CCScrollView::ccTouchMoved(CCTouch* touch, CCEvent* event)
 
     if (m_pTouches->containsObject(touch))
     {
-        if (m_pTouches->count() == 1 && m_bDragging)
+        if (m_pTouches->count() == 1 && m_bDragging && scrollEnable)
         { // scrolling
             CCPoint moveDistance, newPoint, maxInset, minInset;
             CCRect  frame;

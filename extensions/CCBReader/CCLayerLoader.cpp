@@ -8,6 +8,14 @@
 #define PROPERTY_MOUSE_ENABLED "isMouseEnabled"
 #define PROPERTY_KEYBOARD_ENABLED "isKeyboardEnabled"
 
+//TODO: uncomment this if dont work
+/*
+ #define PROPERTY_TOUCH_ENABLED "touchEnabled" // modified
+ #define PROPERTY_ACCELEROMETER_ENABLED "accelerometerEnabled"
+ #define PROPERTY_MOUSE_ENABLED "mouseEnabled"
+ #define PROPERTY_KEYBOARD_ENABLED "keyboardEnabled
+ */
+
 NS_CC_EXT_BEGIN
 
 void CCLayerLoader::onHandlePropTypeCheck(CCNode * pNode, CCNode * pParent, const char * pPropertyName, bool pCheck, CCBReader * pCCBReader) {

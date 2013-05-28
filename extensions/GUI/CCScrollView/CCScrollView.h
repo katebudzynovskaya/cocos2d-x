@@ -154,6 +154,8 @@ public:
     void resume(CCObject* sender);
 
 
+    CC_SYNTHESIZE(bool, scrollEnable, ScrollEnable)
+    
     bool isDragging() {return m_bDragging;}
     bool isTouchMoved() { return m_bTouchMoved; }
     bool isBounceable() { return m_bBounceable; }

@@ -59,7 +59,8 @@ class CC_DLL CCMenu : public CCLayerRGBA
     bool m_bEnabled;
     
 public:
-    CCMenu() : m_pSelectedItem(NULL) {}
+    CCMenu() : m_pSelectedItem(NULL)
+    , touchDispatchPriority(kCCMenuHandlerPriority){}
     virtual ~CCMenu(){}
 
     /** creates an empty CCMenu */

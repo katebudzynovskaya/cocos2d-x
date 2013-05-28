@@ -192,18 +192,33 @@ void SimpleAudioEngine::setEffectsVolume(float volume)
 	}
 }
 
-unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop)
-{
-	std::string fullPath = getFullPathWithoutAssetsPrefix(pszFilePath);
-	if (s_bI9100)
-	{
-		return SimpleAudioEngineOpenSL::sharedEngine()->playEffect(fullPath.c_str(), bLoop);
-	}
-	else 
-	{
-		return playEffectJNI(fullPath.c_str(), bLoop);
-	}
-}
+//old method
+//unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop)
+//{
+//	std::string fullPath = getFullPathWithoutAssetsPrefix(pszFilePath);
+//	if (s_bI9100)
+//	{
+//		return SimpleAudioEngineOpenSL::sharedEngine()->playEffect(fullPath.c_str(), bLoop);
+//	}
+//	else 
+//	{
+//		return playEffectJNI(fullPath.c_str(), bLoop);
+//	}
+//}
+//
+    unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop, float pitch, float pan, float gain)
+    {
+        std::string fullPath = getFullPathWithoutAssetsPrefix(pszFilePath);
+        if (s_bI9100)
+        {
+            return SimpleAudioEngineOpenSL::sharedEngine()->playEffect(fullPath.c_str(), bLoop);
+        }
+        else
+        {
+            return playEffectJNI(fullPath.c_str(), bLoop, pitch, pan, gain);
+        }
+    }
+    
 
 void SimpleAudioEngine::stopEffect(unsigned int nSoundId)
 {

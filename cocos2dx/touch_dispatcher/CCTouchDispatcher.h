@@ -138,6 +138,11 @@ public:
     the higher the priority */
     void setPriority(int nPriority, CCTouchDelegate *pDelegate);
 
+    /** Reset all data related with single touch logic.
+     Important call this method in AppDelegate::applicationDidEnterBackground() and AppDelegate::applicationWillEnterForeground() avoid touch bugs */
+    void resetSingleTouch();
+
+    
     void touches(CCSet *pTouches, CCEvent *pEvent, unsigned int uIndex);
 
     virtual void touchesBegan(CCSet* touches, CCEvent* pEvent);

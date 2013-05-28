@@ -41,6 +41,8 @@ CCObject::CCObject(void)
 : m_nLuaID(0)
 , m_uReference(1) // when the object is created, the reference count of it is 1
 , m_uAutoReleaseCount(0)
+, m_obDebugName("")
+
 {
     static unsigned int uObjectCount = 0;
 
@@ -49,6 +51,12 @@ CCObject::CCObject(void)
 
 CCObject::~CCObject(void)
 {
+    
+    if (m_obDebugName.length() > 0) {
+        CCLog("DESTRUCT: %s", m_obDebugName.c_str());
+    }
+
+    
     // if the object is managed, we should remove it
     // from pool manager
     if (m_uAutoReleaseCount > 0)

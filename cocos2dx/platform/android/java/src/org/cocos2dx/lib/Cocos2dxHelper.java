@@ -167,10 +167,15 @@ public class Cocos2dxHelper {
 	public static void preloadEffect(final String path) {
 		Cocos2dxHelper.sCocos2dSound.preloadEffect(path);
 	}
-
-	public static int playEffect(final String path, final boolean isLoop) {
-		return Cocos2dxHelper.sCocos2dSound.playEffect(path, isLoop);
-	}
+//old method
+//	public static int playEffect(final String path, final boolean isLoop) {
+//		return Cocos2dxHelper.sCocos2dSound.playEffect(path, isLoop);
+//	}
+//
+    public static int playEffect(final String path, final boolean isLoop, float pitch, float pan, float gain){
+        return Cocos2dxHelper.sCocos2dSound.playEffect(path, isLoop, pitch, pan, gain);
+    }
+//
 
 	public static void resumeEffect(final int soundId) {
 		Cocos2dxHelper.sCocos2dSound.resumeEffect(soundId);
