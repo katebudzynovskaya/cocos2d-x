@@ -309,6 +309,75 @@ void CC_DLL ccDrawCircle( const CCPoint& center, float radius, float angle, unsi
     ccDrawCircle(center, radius, angle, segments, drawLineToCenter, 1.0f, 1.0f);
 }
 
+
+void CC_DLL ccDrawGradientCircle( const CCPoint& center, float radius, float angle, unsigned int segments, ccColor4F insideColor, ccColor4F outsideColor, float scaleX, float scaleY)
+{
+    if( ! s_bInitialized ) {
+        //
+        // Position passed as a uniform (to simulate glColor4ub )
+        //
+        s_pShader = CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionColor);
+        s_pShader->retain();
+        
+        s_nPointSizeLocation = glGetUniformLocation( s_pShader->getProgram(), "u_pointSize");
+        CHECK_GL_ERROR_DEBUG();
+        
+        s_bInitialized = true;
+    }
+    
+    int additionalSegment = 2;
+    
+    const float coef = 2.0f * (float)M_PI/segments;
+    
+    GLfloat *vertices = (GLfloat*)calloc( sizeof(GLfloat)*2*(segments+2), 1);
+    GLfloat *colors = (GLfloat*)calloc( sizeof(GLfloat)*4*(segments+2), 1);
+    if( ! vertices || ! colors)
+        return;
+    
+    vertices[0] = center.x;
+    vertices[1] = center.y;
+    
+    colors[0] = insideColor.r;
+    colors[1] = insideColor.g;
+    colors[2] = insideColor.b;
+    colors[3] = insideColor.a;
+    
+    for(unsigned int i = 1;i <= segments + 1; i++) {
+        float rads = i*coef;
+        GLfloat j = radius * cosf(rads + angle) * scaleX + center.x;
+        GLfloat k = radius * sinf(rads + angle) * scaleY + center.y;
+        
+        vertices[i*2] = j;
+        vertices[i*2+1] = k;
+        
+        colors[i*4] = outsideColor.r;
+        colors[i*4+1] = outsideColor.g;
+        colors[i*4+2] = outsideColor.b;
+        colors[i*4+3] = outsideColor.a;
+    }
+    
+    s_pShader->use();
+    s_pShader->setUniformsForBuiltins();
+    
+    ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position | kCCVertexAttribFlag_Color );
+    
+    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+    glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_FLOAT, GL_FALSE, 0, colors);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei) segments+additionalSegment);
+    
+    free( vertices );
+    free( colors );
+    
+    CC_INCREMENT_GL_DRAWS(1);
+}
+
+
+void ccDrawGradientCircle( const CCPoint& center, float radius, float angle, unsigned int segments, ccColor4F insideColor, ccColor4F outsideColor)
+{
+    ccDrawGradientCircle(center, radius, angle, segments, insideColor, outsideColor, 1.0f, 1.0f);
+}
+
+
 void ccDrawQuadBezier(const CCPoint& origin, const CCPoint& control, const CCPoint& destination, unsigned int segments)
 {
     lazy_init();

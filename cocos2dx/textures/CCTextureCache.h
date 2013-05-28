@@ -159,6 +159,14 @@ public:
     It's only useful when the value of CC_ENABLE_CACHE_TEXTURE_DATA is 1
     */
     static void reloadAllTextures();
+    
+    /**
+     Set custom texture for key
+     */
+    void setTextureForKey(CCTexture2D *texture, const char *textureKeyName) {
+        CCAssert(texture != NULL, "Texture argument must not be NULL");
+        m_pTextures->setObject(texture, textureKeyName);
+    }
 };
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
